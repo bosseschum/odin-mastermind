@@ -1,8 +1,8 @@
 class Game
   MAX_TURNS = 12
 
-  def initialize(name)
-    @player = Player.new(name)
+  def initialize
+    @player = Player.new
     @computer = Computer.new
     @board = []
   end
@@ -57,11 +57,13 @@ class Game
     puts 'Do you want to be the code maker or code breaker?'
     mode = gets.chomp.downcase
     game_mode(mode)
+    puts "You can choose from #{Player::COLORS.join(', ')}"
 
     until winner? || game_over?
       if mode == 'breaker'
         guess = @player.player_guess
         @board.push(guess)
+        display_board
       else
         guess = @computer.computer_guess
         @board.push(guess)

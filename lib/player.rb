@@ -1,10 +1,5 @@
 class Player
   COLORS = %w[red green blue yellow orange violet pink white black]
-
-  def initialize(name)
-    @name = name
-  end
-
   def player_guess
     puts 'Pick four colors to take a guess!'
     get_color_choices
