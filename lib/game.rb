@@ -27,6 +27,7 @@ class Game
           print "#{color} ".colorize(:red)
         end
       end
+      @board
       puts
     end
   end
