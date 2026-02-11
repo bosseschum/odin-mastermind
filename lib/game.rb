@@ -14,10 +14,8 @@ class Game
       mode = gets.chomp.downcase
     end
 
-    case mode
-    when 'maker' then @code = @player.player_code
-    when 'breaker' then @code = @computer.generate_code
-    end
+    @mode = mode
+    @code = mode == 'maker' ? @player.player_code : @computer.generate_code
   end
 
   def display_board
@@ -66,7 +64,7 @@ class Game
       turn_number = @board.length + 1
       remaining = MAX_TURNS - @board.length
       puts "\n=== Turn #{turn_number}/#{MAX_TURNS} (#{remaining} remaining) ==="
-      if mode == 'breaker'
+      if @mode == 'breaker'
         guess = @player.player_guess
         @board.push(guess)
         display_board
@@ -81,7 +79,7 @@ class Game
     end
 
     if winner?
-      if mode == 'breaker'
+      if @mode == 'breaker'
         puts 'Congratulation! You cracked the code!'
       else
         puts 'The computer cracked your code!'
