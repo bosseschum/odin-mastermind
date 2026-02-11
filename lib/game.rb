@@ -7,12 +7,16 @@ class Game
     @board = []
   end
 
-  def game_mode(mode)
+  def game_mode
+    mode = nil
+    until %w[maker breaker].include?(mode)
+      puts 'Please pick a game mode! (maker/breaker)'
+      mode = gets.chomp.downcase
+    end
+
     case mode
     when 'maker' then @code = @player.player_code
     when 'breaker' then @code = @computer.generate_code
-    else
-      puts 'Please pick a game mode! (maker/breaker)'
     end
   end
 
@@ -27,7 +31,6 @@ class Game
           print "#{color} ".colorize(:red)
         end
       end
-      @board
       puts
     end
   end
@@ -57,7 +60,7 @@ class Game
   def play
     puts 'Do you want to be the code maker or code breaker?'
     mode = gets.chomp.downcase
-    game_mode(mode)
+    game_mode
     puts "You can choose from #{Player::COLORS.join(', ')}"
 
     until winner? || game_over?
