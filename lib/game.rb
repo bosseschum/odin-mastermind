@@ -59,7 +59,6 @@ class Game
 
   def play
     puts 'Do you want to be the code maker or code breaker?'
-    mode = gets.chomp.downcase
     game_mode
     puts "You can choose from #{Player::COLORS.join(', ')}"
 
