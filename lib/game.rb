@@ -20,13 +20,30 @@ class Game
 
   def display_board
     @board.each do |guess|
+      available = Array.new(@code.length, true)
+
+      guess.each_with_index do |color, i|
+        available[i] = false if @code[i] == color
+      end
+
       guess.each_with_index do |color, i|
         if @code[i] == color
           print "#{color} ".colorize(:green)
-        elsif @code.include?(color)
-          print "#{color} ".colorize(:yellow)
         else
-          print "#{color} ".colorize(:red)
+          found_index = nil
+          @code.each_with_index do |code_color, code_i|
+            if code_color == color && available[code_i]
+              found_index = code_i
+              break
+            end
+          end
+
+          if found_index
+            print "#{color} ".colorize(:yellow)
+            available[found_index] = false
+          else
+            print "#{color} ".colorize(:red)
+          end
         end
       end
       puts
@@ -35,15 +52,34 @@ class Game
 
   def generate_feedback(guess)
     feedback = []
+    available = Array.new(@code.length, true)
+
     guess.each_with_index do |color, i|
-      feedback[i] = if @code[i] == color
-                      :exact
-                    elsif @code.include?(color)
-                      :wrong_position
-                    else
-                      :not_in_code
-                    end
+      if @code[i] == color
+        feedback[i] = :exact
+        available[i] = false
+      end
     end
+
+    guess.each_with_index do |color, i|
+      next if feedback[i] == :exact
+
+      found_index = nil
+      @code.each_with_index do |code_color, code_i|
+        if code_color == color && available[code_i]
+          found_index = code_i
+          break
+        end
+      end
+
+      if found_index
+        feedback[i] = :wrong_position
+        available[found_index] = false
+      else
+        feedback[i] = :not_in_code
+      end
+    end
+
     feedback
   end
 
