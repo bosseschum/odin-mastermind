@@ -64,6 +64,9 @@ class Game
     puts "You can choose from #{Player::COLORS.join(', ')}"
 
     until winner? || game_over?
+      turn_number = @board.length + 1
+      remaining = MAX_TURNS - @board.length
+      puts "\n=== Turn #{turn_number}/#{MAX_TURNS} (#{remaining} remaining) ==="
       if mode == 'breaker'
         guess = @player.player_guess
         @board.push(guess)
